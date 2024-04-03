@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/albums") // 控制器基础路径
+@RequestMapping("/discshop/albums") // 控制器基础路径
 public class AlbumController {
 
     @Autowired
