@@ -8,36 +8,32 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/discshop/albums") // 控制器基础路径
+@RequestMapping("/discshop/albums")
 public class AlbumController {
 
     @Autowired
     private AlbumRepository albumRepository;
 
-    // 获取所有专辑
     @GetMapping
     public List<Album> getAllAlbums() {
         return albumRepository.findAll();
     }
 
-    // 根据ID获取单个专辑
     @GetMapping("/{id}")
     public ResponseEntity<Album> getAlbumById(@PathVariable Long id) {
         Optional<Album> album = albumRepository.findById(id);
-        if(album.isPresent()) {
+        if (album.isPresent()) {
             return ResponseEntity.ok(album.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // 创建新专辑
     @PostMapping
     public Album createAlbum(@RequestBody Album newAlbum) {
         return albumRepository.save(newAlbum);
     }
 
-    // 根据ID更新专辑
     @PutMapping("/{id}")
     public ResponseEntity<Album> updateAlbum(@PathVariable Long id, @RequestBody Album albumDetails) {
         return albumRepository.findById(id)
@@ -53,7 +49,6 @@ public class AlbumController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // 根据ID删除专辑
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAlbum(@PathVariable Long id) {
         return albumRepository.findById(id)
@@ -62,6 +57,15 @@ public class AlbumController {
                     return ResponseEntity.ok().build();
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Album>> searchAlbums(@RequestParam(name = "title") String searchTerm) {
+        List<Album> albums = albumRepository.searchByTitleIgnoringCaseAndSpace(searchTerm);
+        if (albums.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(albums);
     }
 
 }

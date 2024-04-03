@@ -1,9 +1,13 @@
 package com.frank.discshop;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-// 这个接口允许你执行CRUD操作，JpaRepository<Album, Long>表示这个仓库是管理Album实体的，其主键是Long类型
+import java.util.List;
+
 public interface AlbumRepository extends JpaRepository<Album, Long> {
-    // 这里你可以根据需要添加自定义的数据库操作方法，但是JpaRepository已经提供了很多标准的方法
+    @Query("SELECT a FROM Album a WHERE LOWER(REPLACE(a.title, ' ', '')) LIKE LOWER(CONCAT('%', REPLACE(:searchTerm, ' ', ''), '%'))")
+    List<Album> searchByTitleIgnoringCaseAndSpace(@Param("searchTerm") String searchTerm);
 }
 
