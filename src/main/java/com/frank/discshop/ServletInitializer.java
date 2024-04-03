@@ -1,4 +1,4 @@
-package com.frank.DiscShop;
+package com.frank.discshop;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
