@@ -68,12 +68,6 @@ body, h1, p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* 增加阴影强度以提高对比 */
 }
 
-.search-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
 #search-box {
     padding: 5px;
 }
@@ -85,8 +79,8 @@ body, h1, p {
 }
 
 #search-btn img {
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
 }
 
 .search-results {
@@ -95,7 +89,6 @@ body, h1, p {
     align-items: center;
 }
 
-/* “未找到”提示的衬线体样式 */
 .not-found {
     font-family: "Times New Roman", Times, serif; /* 衬线字体 */
     font-size: 1.5rem;
