@@ -1,0 +1,103 @@
+/* style.css */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+.site-header {
+    background-color: #000;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.site-title {
+    font-family: "Times New Roman", Times, serif; /* 衬线字体 */
+    margin: 0 0 10px;
+}
+
+.top-icon {
+    height: 50px; /* 或根据您的图标实际大小进行调整 */
+    display: block;
+    margin: 0 auto;
+}
+
+.album-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 创建灵活的网格布局，每个专辑至少200px宽，自动填充 */
+    gap: 20px; /* 设置网格间隙 */
+    padding: 20px;
+    margin: 0 auto; /* 水平居中 */
+    max-width: 1200px; /* 最大宽度，根据需求调整 */
+}
+
+.album-card {
+    width: 200px;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    text-align: center;
+}
+
+.album-card img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.album-info {
+    padding: 15px;
+}
+
+.album-info h3 {
+    margin-top: 15px;
+}
+
+.album-info p {
+    color: #666;
+}
+
+/* 添加鼠标悬浮效果 */
+.album-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 平滑过渡效果 */
+    cursor: pointer; /* 将鼠标指针改为指向链接的手指形状 */
+}
+
+.album-card:hover {
+    transform: scale(1.05); /* 鼠标悬浮时缩放 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* 增加阴影强度以提高对比 */
+}
+
+.search-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#search-box {
+    padding: 5px;
+}
+
+#search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#search-btn img {
+    height: 25px;
+    width: 25px;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* “未找到”提示的衬线体样式 */
+.not-found {
+    font-family: "Times New Roman", Times, serif; /* 衬线字体 */
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
