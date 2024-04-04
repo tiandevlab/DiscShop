@@ -2,27 +2,27 @@ package com.frank.discshop;
 
 import jakarta.persistence.*;
 
-@Entity // 表明这是一个Jakarta Persistence实体
-@Table(name = "Albums") // 指定对应的表名是"Albums"
+@Entity
+@Table(name = "Albums")
 public class Album {
 
-    @Id // 表明这个属性是表的主键
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 主键值自动生成
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false) // 对应数据库的 title 列
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false) // 对应数据库的 artist 列
+    @Column(nullable = false)
     private String artist;
 
-    @Column(name = "release_year") // 显式指明对应的列名为 release_year
+    @Column(name = "release_year")
     private Integer releaseYear;
 
-    @Column(name = "cover_image_name") // 显式指明对应的列名为 cover_image_name
+    @Column(name = "cover_image_name")
     private String coverImageName;
 
-    @Column // 对应数据库的 copyright 列
+    @Column
     private String copyright;
 
     // Getters and setters
@@ -74,7 +74,6 @@ public class Album {
         this.copyright = copyright;
     }
 
-    // 构造函数
     public Album() {
     }
 
