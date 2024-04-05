@@ -84,4 +84,9 @@
     display: block !important;
 }
 
+.fw-light, .text-body-secondary {
+
+
+    font-family: 'Times New Roman', serif;
+}
 
