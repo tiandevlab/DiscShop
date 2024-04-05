@@ -75,6 +75,28 @@ $(document).ready(function() {
         });
     });
 
+    //delete
+    $('#deleteAlbumBtn').click(function() {
+        var albumId = $('#albumId').val(); // 获取当前编辑的专辑ID
+        var confirmDelete = confirm("Are you sure you want to delete this album?");
+        if (confirmDelete) {
+            // 如果用户确认删除，则执行删除操作
+            $.ajax({
+                url: 'http://localhost:8090/discshop/albums/' + albumId,
+                type: 'DELETE',
+                success: function(result) {
+                    $('#editAlbumModal').modal('hide'); // 关闭Modal
+                    $('#albumsTable').DataTable().ajax.reload(); // 重新加载数据表
+                    alert("Album deleted successfully."); // 显示删除成功的提示
+                },
+                error: function() {
+                    alert("Error deleting album."); // 如果有错误发生，显示错误提示
+                }
+            });
+        }
+    });
+
+
 });
 
 function editAlbum(albumId) {
