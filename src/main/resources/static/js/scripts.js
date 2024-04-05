@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // 初始化DataTable
+    // DataTable
     $('#albumsTable').DataTable({
         "ajax": {
             "url": "http://localhost:8090/discshop/albums", // 替换成你的API端点
@@ -26,8 +26,10 @@ $(document).ready(function() {
         ]
     });
 
+
+    // albums
     $.ajax({
-        url: 'http://localhost:8090/discshop/albums', // 替换成你的API端点
+        url: 'http://localhost:8090/discshop/albums',
         type: 'GET',
         success: function(albums) {
             // 确保专辑的数量和卡片的数量相匹配
@@ -45,4 +47,53 @@ $(document).ready(function() {
         }
     });
 
+    // edit
+    $('#editAlbumModal .btn-primary').click(function() {
+        var albumId = $('#albumId').val();
+        var albumData = {
+            id: albumId,
+            title: $('#albumTitle').val(),
+            artist: $('#albumArtist').val(),
+            releaseYear: $('#albumReleaseYear').val(),
+            coverImageName: $('#albumCoverImageName').val(),
+            copyright: $('#albumCopyright').val()
+        };
+
+        $.ajax({
+            url: 'http://localhost:8090/discshop/albums/' + albumId,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(albumData),
+            success: function(result) {
+                $('#editAlbumModal').modal('hide');
+                // 重新加载或更新数据表格
+                $('#albumsTable').DataTable().ajax.reload();
+            },
+            error: function() {
+                console.log("Error updating album");
+            }
+        });
+    });
+
 });
+
+function editAlbum(albumId) {
+    $.ajax({
+        url: 'http://localhost:8090/discshop/albums/' + albumId,
+        type: 'GET',
+        success: function(album) {
+            $('#albumId').val(album.id);
+            $('#albumTitle').val(album.title);
+            $('#albumArtist').val(album.artist);
+            $('#albumReleaseYear').val(album.releaseYear);
+            $('#albumCoverImageName').val(album.coverImageName);
+            $('#albumCopyright').val(album.copyright);
+
+            $('#editAlbumModal').modal('show');
+        },
+        error: function() {
+            console.log("Error loading album details");
+        }
+    });
+}
+
