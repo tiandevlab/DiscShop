@@ -51,7 +51,6 @@ $(document).ready(function() {
     $('#editAlbumModal .btn-primary').click(function() {
         var albumId = $('#albumId').val();
         var albumData = {
-            id: albumId,
             title: $('#albumTitle').val(),
             artist: $('#albumArtist').val(),
             releaseYear: $('#albumReleaseYear').val(),
@@ -59,21 +58,41 @@ $(document).ready(function() {
             copyright: $('#albumCopyright').val()
         };
 
+        var requestType, requestUrl;
+
+        // 检查是添加还是更新
+        if (albumId) {
+            requestType = 'PUT';
+            requestUrl = 'http://localhost:8090/discshop/albums/' + albumId;
+        } else {
+            requestType = 'POST';
+            requestUrl = 'http://localhost:8090/discshop/albums';
+        }
+
         $.ajax({
-            url: 'http://localhost:8090/discshop/albums/' + albumId,
-            type: 'PUT',
+            url: requestUrl,
+            type: requestType,
             contentType: 'application/json',
             data: JSON.stringify(albumData),
             success: function(result) {
                 $('#editAlbumModal').modal('hide');
-                // 重新加载或更新数据表格
-                $('#albumsTable').DataTable().ajax.reload();
+                $('#albumsTable').DataTable().ajax.reload(null, false); // 重新加载数据表，不重置分页
+                if (albumId) {
+                    alert("Album updated successfully.");
+                } else {
+                    alert("Album added successfully.");
+                }
             },
             error: function() {
-                console.log("Error updating album");
+                if (albumId) {
+                    alert("Error updating album.");
+                } else {
+                    alert("Error adding album.");
+                }
             }
         });
     });
+
 
     //delete
     $('#deleteAlbumBtn').click(function() {
@@ -97,6 +116,7 @@ $(document).ready(function() {
     });
 
 
+
 });
 
 function editAlbum(albumId) {
@@ -118,4 +138,17 @@ function editAlbum(albumId) {
         }
     });
 }
+
+$('#addAlbumBtn').click(function() {
+    $('#editAlbumForm').find('input').val('');
+
+    $('#editAlbumModalLabel').text('Add New Album');
+
+    $('#deleteAlbumBtn').hide();
+
+    $('#editAlbumModal').modal('show');
+});
+
+
+
 
