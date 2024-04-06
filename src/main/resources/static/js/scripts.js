@@ -2,7 +2,7 @@ $(document).ready(function() {
     // DataTable
     $('#albumsTable').DataTable({
         "ajax": {
-            "url": "http://localhost:8090/discshop/albums", // 替换成你的API端点
+            "url": "http://localhost:8090/discshop/albums",
             "dataSrc": ""
         },
         "columns": [
@@ -32,19 +32,29 @@ $(document).ready(function() {
         url: 'http://localhost:8090/discshop/albums',
         type: 'GET',
         success: function(albums) {
-            // 确保专辑的数量和卡片的数量相匹配
             $('.card').each(function(index) {
                 if (index < albums.length) {
                     var album = albums[index];
                     $(this).find('.card-img-top').attr('src', 'images/' + album.coverImageName).attr('alt', album.title);
                     $(this).find('.card-text').text(album.title + ' - ' + album.artist + ' (' + album.releaseYear + ')');
-                    // 如果有其他信息，也可以在这里更新
                 }
             });
         },
         error: function() {
             console.log("Error loading album data");
         }
+    });
+
+
+    $('#addAlbumBtn').click(function() {
+        resetModal();
+        $('#editAlbumForm').find('input').val('');
+
+        $('#editAlbumModalLabel').text('Add New Album');
+
+        $('#deleteAlbumBtn').hide();
+
+        $('#editAlbumModal').modal('show');
     });
 
     // edit
@@ -60,7 +70,6 @@ $(document).ready(function() {
 
         var requestType, requestUrl;
 
-        // 检查是添加还是更新
         if (albumId) {
             requestType = 'PUT';
             requestUrl = 'http://localhost:8090/discshop/albums/' + albumId;
@@ -76,7 +85,7 @@ $(document).ready(function() {
             data: JSON.stringify(albumData),
             success: function(result) {
                 $('#editAlbumModal').modal('hide');
-                $('#albumsTable').DataTable().ajax.reload(null, false); // 重新加载数据表，不重置分页
+                $('#albumsTable').DataTable().ajax.reload(null, false);
                 if (albumId) {
                     alert("Album updated successfully.");
                 } else {
@@ -96,30 +105,28 @@ $(document).ready(function() {
 
     //delete
     $('#deleteAlbumBtn').click(function() {
-        var albumId = $('#albumId').val(); // 获取当前编辑的专辑ID
+        var albumId = $('#albumId').val();
         var confirmDelete = confirm("Are you sure you want to delete this album?");
         if (confirmDelete) {
-            // 如果用户确认删除，则执行删除操作
+
             $.ajax({
                 url: 'http://localhost:8090/discshop/albums/' + albumId,
                 type: 'DELETE',
                 success: function(result) {
-                    $('#editAlbumModal').modal('hide'); // 关闭Modal
-                    $('#albumsTable').DataTable().ajax.reload(); // 重新加载数据表
-                    alert("Album deleted successfully."); // 显示删除成功的提示
+                    $('#editAlbumModal').modal('hide');
+                    $('#albumsTable').DataTable().ajax.reload();
+                    alert("Album deleted successfully.");
                 },
                 error: function() {
-                    alert("Error deleting album."); // 如果有错误发生，显示错误提示
+                    alert("Error deleting album.");
                 }
             });
         }
     });
-
-
-
 });
 
 function editAlbum(albumId) {
+    resetModal();
     $.ajax({
         url: 'http://localhost:8090/discshop/albums/' + albumId,
         type: 'GET',
@@ -138,17 +145,12 @@ function editAlbum(albumId) {
         }
     });
 }
-
-$('#addAlbumBtn').click(function() {
+//reset the Modal
+function resetModal() {
     $('#editAlbumForm').find('input').val('');
-
-    $('#editAlbumModalLabel').text('Add New Album');
-
-    $('#deleteAlbumBtn').hide();
-
-    $('#editAlbumModal').modal('show');
-});
-
+    $('#editAlbumModalLabel').text('Edit Album');
+    $('#deleteAlbumBtn').show();
+}
 
 
 
