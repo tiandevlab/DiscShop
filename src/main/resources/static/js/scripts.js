@@ -28,21 +28,34 @@ $(document).ready(function() {
 
 
     // albums
-    $.ajax({
-        url: 'http://localhost:8090/discshop/albums',
-        type: 'GET',
-        success: function(albums) {
-            $('.card').each(function(index) {
-                if (index < albums.length) {
-                    var album = albums[index];
-                    $(this).find('.card-img-top').attr('src', 'images/' + album.coverImageName).attr('alt', album.title);
-                    $(this).find('.card-text').text(album.title + ' - ' + album.artist + ' (' + album.releaseYear + ')');
-                }
-            });
-        },
-        error: function() {
-            console.log("Error loading album data");
-        }
+    function loadAlbums() {
+        $.ajax({
+            url: 'http://localhost:8090/discshop/albums',
+            type: 'GET',
+            success: function(albums) {
+                var albumContainer = $('.album .container .row');
+                albumContainer.empty();
+                albums.forEach(function(album) {
+                    var albumHtml =
+                        '<div class="col">' +
+                        '<div class="card shadow-sm">' +
+                        '<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="images/' + album.coverImageName + '" alt="' + album.title + '">' +
+                        '<div class="card-body">' +
+                        '<p class="card-text">' + album.title + ' - ' + album.artist + ' (' + album.releaseYear + ')</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                    albumContainer.append(albumHtml);
+                });
+            },
+            error: function() {
+                console.log("Error loading album data");
+            }
+        });
+    }
+
+    $('#albums-tab').on('click', function() {
+        loadAlbums();
     });
 
 
