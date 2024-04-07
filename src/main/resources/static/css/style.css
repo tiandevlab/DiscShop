@@ -8,10 +8,19 @@
 }
 
 .card-img-top {
-    width: 100%; /* 设定宽度为父元素的100% */
-    height: auto; /* 高度自动，保持图片比例 */
-    object-fit: cover; /* 覆盖填充保证内容不变形 */
-    aspect-ratio: 1 / 1; /* 设置宽高比为1:1 */
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加平滑变换效果 */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
 
@@ -85,8 +94,6 @@
 }
 
 .fw-light, .text-body-secondary {
-
-
     font-family: 'Times New Roman', serif;
 }
 
